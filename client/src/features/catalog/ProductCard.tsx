@@ -48,8 +48,15 @@ function ProductCard({ product }: Props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Add to cart</Button>
-          <Button size="small" component={Link} to={`/catalog/${product.id}`}>
+          <Button size="small" sx={{ fontWeight: "bold" }}>
+            Add to cart
+          </Button>
+          <Button
+            size="small"
+            sx={{ fontWeight: "bold" }}
+            component={Link}
+            to={`/catalog/${product.id}`}
+          >
             View
           </Button>
         </CardActions>
