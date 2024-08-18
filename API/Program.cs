@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(opt =>
 {
-    opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5173");
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:5173");
 });
 
 
@@ -38,5 +38,18 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+try
+{
+    context.Database.Migrate();
+    DbInitializer.Initialize(context);
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "A problem occured during migration");
+}
 
 app.Run();

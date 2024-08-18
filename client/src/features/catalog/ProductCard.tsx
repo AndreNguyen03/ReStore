@@ -10,12 +10,28 @@ import {
 } from "@mui/material";
 import { Product } from "../../app/models/product";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import agent from "../../app/api/agent";
+import { LoadingButton } from "@mui/lab";
+import { useStoreContext } from "../../app/context/StoreContext";
+import { currencyFormat } from "../../app/utils/utils";
 
 interface Props {
   product: Product;
 }
 
 function ProductCard({ product }: Props) {
+  const [loading, setLoading] = useState(false);
+  const { setBasket } = useStoreContext();
+
+  function handleAddItem(productId: number) {
+    setLoading(true);
+    agent.Basket.addItem(productId)
+      .then((basket) => setBasket(basket))
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  }
+
   return (
     <>
       <Card>
@@ -41,16 +57,21 @@ function ProductCard({ product }: Props) {
         />
         <CardContent>
           <Typography gutterBottom color="secondary" variant="h5">
-            ${(product.price / 100).toFixed(2)}
+            {currencyFormat(product.price)}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {product.brand} / {product.type}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" sx={{ fontWeight: "bold" }}>
+          <LoadingButton
+            loading={loading}
+            size="small"
+            sx={{ fontWeight: "bold" }}
+            onClick={() => handleAddItem(product.id)}
+          >
             Add to cart
-          </Button>
+          </LoadingButton>
           <Button
             size="small"
             sx={{ fontWeight: "bold" }}
