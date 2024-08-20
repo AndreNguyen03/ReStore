@@ -24,7 +24,7 @@ function CheckboxButtonGroup({items,checked,onChange}: Props) {
     return (
     <FormGroup >
       {items.map((item) => (
-        <FormControlLabel control={<Checkbox checked={checkedItems.indexOf(item) !== -1}/>} label={item} key={item} onClick={() => handleChecked(item)} />
+        <FormControlLabel control={<Checkbox checked={checkedItems.indexOf(item) !== -1} onClick={() => handleChecked(item)}/>} label={item} key={item}  />
       ))}
     </FormGroup>
   );

@@ -22,7 +22,7 @@ function BasketPage() {
   const { basket, status } = useAppSelector((state) => state.basket);
   const dispatch = useAppDispatch();
 
-  if (!basket)
+  if (basket?.items.length === 0)
     return <Typography variant="h3">Your basket is empty</Typography>;
 
   return (
@@ -39,7 +39,7 @@ function BasketPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {basket.items.map((item) => (
+            {basket?.items.map((item) => (
               <TableRow
                 key={item.productId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -59,14 +59,16 @@ function BasketPage() {
                 </TableCell>
                 <TableCell align="center">
                   <LoadingButton
-                    loading={status === "pendingRemoveItem" + item.productId + 'rem'}
+                    loading={
+                      status === "pendingRemoveItem" + item.productId + "rem"
+                    }
                     color="error"
                     onClick={() =>
                       dispatch(
                         removeBasketItemAsync({
                           productId: item.productId,
                           quantity: 1,
-                          name : 'rem'
+                          name: "rem",
                         })
                       )
                     }
@@ -119,20 +121,16 @@ function BasketPage() {
       <Grid container>
         <Grid item xs={6}></Grid>
         <Grid item xs={6}>
-          {basket.items.length > 0 && (
-            <>
-              <BasketSummary />
-              <Button
-                component={Link}
-                to="/checkout"
-                variant="contained"
-                size="large"
-                fullWidth
-              >
-                Checkout
-              </Button>
-            </>
-          )}
+          <BasketSummary />
+          <Button
+            component={Link}
+            to="/checkout"
+            variant="contained"
+            size="large"
+            fullWidth
+          >
+            Checkout
+          </Button>
         </Grid>
       </Grid>
     </>

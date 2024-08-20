@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 
-namespace API.Mapper
+namespace API.Extensions
 {
-    public static class BasketMapper
+    public static class BasketExtensions
     {
-        public static BasketDto MapToBasketDto(Basket basket)
+        public static BasketDto MapToBasketDto(this Basket basket)
         {
             return new BasketDto
             {

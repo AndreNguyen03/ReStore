@@ -26,7 +26,7 @@ const sortOptions = [
 
 function Catalog() {
   const products = useAppSelector(productSelectors.selectAll);
-  const { productsLoaded, filtersLoaded, brands,types,productParams ,metaData} = useAppSelector(
+  const { productsLoaded, filtersLoaded, brands,types,productParams ,metaData } = useAppSelector(
     (state) => state.catalog
   );
   const dispatch = useAppDispatch();
@@ -78,7 +78,6 @@ function Catalog() {
           <AppPagination 
             metaData={metaData}
             onPageChange={(page:number) => dispatch(setPageNumber({pageNumber:page}))}
-          
           />
         </Grid>
       </Grid>
